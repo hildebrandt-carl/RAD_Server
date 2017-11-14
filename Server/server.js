@@ -1,9 +1,8 @@
-/*var http = require("http");
+var http = require("http");
 
 http.createServer(function (request, response) {
 
 request.on("end", function () {
-
     response.writeHead(200, {
         'Content-Type': 'text/plain'
     });
@@ -11,10 +10,11 @@ request.on("end", function () {
     response.end('Hello HTTP!');
 });
 
-}).listen(4242);*/
+    response.end('Seconds HTTP!');
+}).listen(4242);
 
 
-var http = require("http");
+/*var http = require("http");
 var server = http.createServer(function(request, response) {
   response.writeHead(200, {"Content-Type": "text/html"});
   response.write("<!DOCTYPE html>");
@@ -30,4 +30,4 @@ var server = http.createServer(function(request, response) {
 });
 
 server.listen(4242);
-console.log("Server is listening");
+console.log("Server is listening");*/
