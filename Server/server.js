@@ -13,4 +13,4 @@ request.on("end", function () {
     response.end('Hello HTTP!');
 });
 
-}).listen(6000);
+}).listen(4242);
