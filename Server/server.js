@@ -59,8 +59,10 @@ net.createServer(function(socket) {
     // Add a 'data' event handler to this instance of socket
     socket.on('data', function(data) {
         
-        console.log('Incoming data: ' + '\t' + socket.remoteAddress + ': ' + data);
+        console.log('Incoming data from: ' + '\t' + socket.remoteAddress + ':'+ socket.remotePort);
+        console.log('The data was: ' + '\t' + data);
         // Write the data back to the socket, the client will receive it as data from the server
+        console.log('Responding to: ' + '\t' + socket.remoteAddress + ':'+ socket.remotePort);
         socket.write('You said "' + data + '"');
         
     });
