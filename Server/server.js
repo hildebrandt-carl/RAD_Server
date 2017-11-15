@@ -54,22 +54,22 @@ net.createServer(function(socket) {
     
     // We have a connection - a socket object is assigned to the connection automatically
     console.log('-------------------------');
-    console.log('CONNECTED: ' + '\t' + socket.remoteAddress +':'+ socket.remotePort);
+    console.log('CONNECTED: ' + '\t\t' + socket.remoteAddress +':'+ socket.remotePort);
     
     // Add a 'data' event handler to this instance of socket
     socket.on('data', function(data) {
         
         console.log('Incoming data from: ' + '\t' + socket.remoteAddress + ':'+ socket.remotePort);
-        console.log('The data was: ' + '\t' + data);
+        console.log('The data was: ' + '\t\t' + data);
         // Write the data back to the socket, the client will receive it as data from the server
-        console.log('Responding to: ' + '\t' + socket.remoteAddress + ':'+ socket.remotePort);
+        console.log('Responding to: ' + '\t\t' + socket.remoteAddress + ':'+ socket.remotePort);
         socket.write('You said "' + data + '"');
         
     });
     
     // Add a 'close' event handler to this instance of socket
     socket.on('close', function(data) {
-        console.log('CLOSED: ' + '\t' + socket.remoteAddress +' '+ socket.remotePort);
+        console.log('CLOSED: ' + '\t\t' + socket.remoteAddress +' '+ socket.remotePort);
         console.log('-------------------------');
     });
 
