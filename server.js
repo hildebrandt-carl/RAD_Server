@@ -70,6 +70,7 @@ net.createServer(function(socket) {
         console.log('The data was: ' + '\t\t' + data);
         // Write the data back to the socket, the client will receive it as data from the server
         console.log('Responding to: ' + '\t\t' + socket.remoteAddress + ':'+ socket.remotePort);
+        socket.write('ack');
         socket.write('You said "' + data + '"');
 
         console.log('-------------------------');
