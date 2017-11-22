@@ -34,22 +34,28 @@ net.createServer(function(socket) {
             if(openConnections[socketIndex].role == "none")
             {
                 console.log('This is a new device');
-                switch (data) {
-                    case "controller":
+
+                if(data === "web")
+                {
+                    console.log("This is a web!!!!!!!!!");
+                }
+
+                switch (data.toString()) {
+                    case 'controller':
                         console.log('The device is requesting to be a controller');
                         //TODO check if there are any other controllers
                         console.log('controller accepted');
                         socket.write('ack');
                         openConnections[socketIndex].role = "controller";   
                         break;
-                    case "web":
+                    case 'web':
                         console.log('The device is requesting to be a website');
                         //TODO check if there are any other controllers
                         console.log('web accepted');
                         socket.write('ack');
                         openConnections[socketIndex].role = "web";   
                         break;
-                    case "vr":
+                    case 'vr':
                         console.log('The device is requesting to be virtual reality');
                         //TODO check if there are any other controllers
                         console.log('vr accepted');
