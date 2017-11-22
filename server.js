@@ -35,12 +35,19 @@ net.createServer(function(socket) {
             {
                 console.log('This is a new device');
                 switch (new Date().getDay()) {
-                    case "c":
+                    case "controller":
                         console.log('The device is requesting to be a controller');
                         //TODO check if there are any other controllers
                         console.log('controller accepted');
                         socket.write('ack');
                         openConnections[socketIndex].role = "controller";   
+                        break;
+                    case "web":
+                        console.log('The device is requesting to be a website');
+                        //TODO check if there are any other controllers
+                        console.log('controller accepted');
+                        socket.write('ack');
+                        openConnections[socketIndex].role = "web";   
                         break;
                     default:
                         console.log('Not a known request');
