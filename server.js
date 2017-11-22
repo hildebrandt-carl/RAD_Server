@@ -34,7 +34,7 @@ net.createServer(function(socket) {
             if(openConnections[socketIndex].role == "none")
             {
                 console.log('This is a new device');
-                switch (new Date().getDay()) {
+                switch (data) {
                     case "controller":
                         console.log('The device is requesting to be a controller');
                         //TODO check if there are any other controllers
