@@ -1,26 +1,10 @@
-# Team RAD - Lab 2
+# Team RAD - Server
 
-Advanced Embedded Systems Course
+This is the RAD teams web server. 
 
 ## About
 
-
-### Prerequisites
-
-You will need to install wizzimote-contiki:
-
-```
-git clone https://suman2135@bitbucket.org/suman2135/wizzimote-contiki.git
-```
-
-Move the libmsp430.so into /usr/lib
-
-Once this is installed you will need multiple packages for completing and running Contiki. They can be installed using:
-
-```
-sudo apt-get install build-essential binutils-msp430 gcc-msp430 msp430-libc msp430mcu mspdebug gcc-arm-none-eabi gdb-arm-none-eabi ant libncurses5-dev
-```
-
+The server will act as the communication link between all of our devices. The web server keeps track of connections and what each connection is used for. The web server then takes the information from each of the devices and decides if they should be forwarded and if so where they should be forwarded to.
 
 ## Authors
 
