@@ -45,9 +45,16 @@ net.createServer(function(socket) {
                     case "web":
                         console.log('The device is requesting to be a website');
                         //TODO check if there are any other controllers
-                        console.log('controller accepted');
+                        console.log('web accepted');
                         socket.write('ack');
                         openConnections[socketIndex].role = "web";   
+                        break;
+                    case "vr":
+                        console.log('The device is requesting to be virtual reality');
+                        //TODO check if there are any other controllers
+                        console.log('vr accepted');
+                        socket.write('ack');
+                        openConnections[socketIndex].role = "vr";   
                         break;
                     default:
                         console.log('Not a known request');
