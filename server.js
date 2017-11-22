@@ -44,8 +44,8 @@ require('net').createServer(function (socket) {
 .listen(4242);*/
 
 var net = require('net');
-
 var PORT = 4242;
+var openConnections = [];
 
 // Create a server instance, and chain the listen function to it
 // The function passed to net.createServer() becomes the event handler for the 'connection' event
@@ -55,6 +55,13 @@ net.createServer(function(socket) {
     // We have a connection - a socket object is assigned to the connection automatically
     console.log('-------------------------');
     console.log('CONNECTED: ' + '\t\t' + socket.remoteAddress +':'+ socket.remotePort);
+    // Create a connection object to keep track of connections
+    var connection = {
+        ip: socket.remoteAddress,
+        role: "none"
+    }
+
+    openConnections.push(connection);
     
     // Add a 'data' event handler to this instance of socket
     socket.on('data', function(data) {
@@ -64,15 +71,27 @@ net.createServer(function(socket) {
         // Write the data back to the socket, the client will receive it as data from the server
         console.log('Responding to: ' + '\t\t' + socket.remoteAddress + ':'+ socket.remotePort);
         socket.write('You said "' + data + '"');
-        
+
+        console.log('-------------------------');
+        console.log('-------------------------');
+        console.log(openConnections);
+        console.log('-------------------------');
+        console.log('-------------------------');
     });
     
     // Add a 'close' event handler to this instance of socket
     socket.on('close', function(data) {
-        console.log('CLOSED: ' + '\t\t' + socket.remoteAddress +' '+ socket.remotePort);
+        
+        for (var i = 0; i < openConnections.length; i++) 
+        {
+            if(socket.remoteAddress == openConnections[i].ip)
+            {
+                console.log("FOUND!");
+            }
+            console.log('CLOSED: ' + '\t\t' + socket.remoteAddress +' :'+ socket.remotePort);
+        }
         console.log('-------------------------');
     });
-
 
     // If there is an error event
     socket.on("error", function(err) {
