@@ -21,7 +21,7 @@ net.createServer(function(socket) {
     // Add a 'data' event handler to this instance of socket
     socket.on('data', function(data) {
         
-        console.log("Recieved communication from " + socket.remoteAddress) ;
+        console.log("Recieved communication from " + socket.remoteAddress + "--" + data) ;
         // Find the socket which just sent the message
         socketIndex = returnConnectionIndex(socket.remoteAddress) ;
         if(socketIndex == -1)
