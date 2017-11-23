@@ -12,7 +12,8 @@ net.createServer(function(socket) {
     // Create a connection object to keep track of connections
     var connection = {
         ip: socket.remoteAddress,
-        role: "none"
+        role: "none",
+        com: socket
     }
 
     // Add the connection to a queue of connections
@@ -23,7 +24,7 @@ net.createServer(function(socket) {
         
         console.log("Recieved communication from " + socket.remoteAddress + "--" + data) ;
         // Find the socket which just sent the message
-        socketIndex = returnConnectionIndex(socket.remoteAddress) ;
+        socketIndex = returnConnectionIndexFromIP(socket.remoteAddress) ;
         if(socketIndex == -1)
         {
             console.log("This connection IP address is not known") ;
@@ -34,44 +35,14 @@ net.createServer(function(socket) {
             if(openConnections[socketIndex].role == "none")
             {
                 console.log('This is a new device');
-
-                if(data === "web")
-                {
-                    console.log("This is a web!!!!!!!!!");
-                }
-
-                switch (data.toString()) {
-                    case 'controller':
-                        console.log('The device is requesting to be a controller');
-                        //TODO check if there are any other controllers
-                        console.log('controller accepted');
-                        socket.write('ack');
-                        openConnections[socketIndex].role = "controller";   
-                        break;
-                    case 'web':
-                        console.log('The device is requesting to be a website');
-                        //TODO check if there are any other controllers
-                        console.log('web accepted');
-                        socket.write('ack');
-                        openConnections[socketIndex].role = "web";   
-                        break;
-                    case 'vr':
-                        console.log('The device is requesting to be virtual reality');
-                        //TODO check if there are any other controllers
-                        console.log('vr accepted');
-                        socket.write('ack');
-                        openConnections[socketIndex].role = "vr";   
-                        break;
-                    default:
-                        console.log('Not a known request');
-                        socket.write('rej');
-                }
+                AssignRole(data.toString()) ;
+            }
+            // It already has
+            else
+            {
+                IncomingData(data.toString()) ;
             }
         }
-
-        console.log('-------Current Open Connections---------');
-        console.log(openConnections);
-        console.log('----------------------------------------');
     });
     
     // Add a 'close' event handler to this instance of socket
@@ -79,7 +50,7 @@ net.createServer(function(socket) {
 
         console.log("Attempting to close the the socket")
 
-        socketIndex = returnConnectionIndex(socket.remoteAddress) ;
+        socketIndex = returnConnectionIndexFromIP(socket.remoteAddress) ;
         
         if(socketIndex == -1)
         {
@@ -107,9 +78,14 @@ net.createServer(function(socket) {
     
 }).listen(PORT)
 
+
+
+
+
+
 console.log('Server listening on port: ' + PORT);
 
-function returnConnectionIndex(theIPAddress) 
+function returnConnectionIndexFromIP(theIPAddress) 
 {
     for (var i = 0; i < openConnections.length; i++) 
     {
@@ -119,4 +95,73 @@ function returnConnectionIndex(theIPAddress)
         }
     }
     return -1;
+}
+
+function returnConnectionIndexFromRole(theRole) 
+{
+    for (var i = 0; i < openConnections.length; i++) 
+    {
+        if(theRole == openConnections[i].role)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function AssignRole(in_data) 
+{
+    switch (in_data) {
+        case 'controller':
+            console.log('The device is requesting to be a controller');
+            //TODO check if there are any other controllers
+            console.log('controller accepted');
+            openConnections[socketIndex].role = "controller";   
+            openConnections[socketIndex].com.write('ack');
+            break;
+        case 'web':
+            console.log('The device is requesting to be a website');
+            //TODO check if there are any other controllers
+            console.log('web accepted');
+            openConnections[socketIndex].role = "web";   
+            openConnections[socketIndex].com.write('ack');
+            break;
+        case 'vr':
+            console.log('The device is requesting to be virtual reality');
+            //TODO check if there are any other controllers
+            console.log('vr accepted');
+            openConnections[socketIndex].role = "vr";  
+            openConnections[socketIndex].com.write('ack'); 
+            break;
+        default:
+            console.log('Not a known request');
+            openConnections[socketIndex].com.write('rej');
+    }
+}
+
+function IncomingData(in_data) 
+{
+    switch (in_data) {
+        case 'controller':
+                console.log("Controller spoke to me") ;
+            break;
+        case 'web':
+                var controllerIndex = returnConnectionIndexFromRole("controller") ;
+                if(controllerIndex == -1)
+                {
+                    console.log("Error could not find controller") ;
+                }
+                else
+                {
+                    console.log("Replying");
+                    openConnections[controllerIndex].com.write(in_data) ;
+                }
+            break;
+        case 'vr':
+                console.log("VR spoke to me") ;
+            break;
+        default:
+            console.log('Not a known request');
+            openConnections[socketIndex].com.write('rej');
+    }
 }
