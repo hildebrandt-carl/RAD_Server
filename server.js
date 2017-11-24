@@ -8,7 +8,7 @@ var openConnections = [];
 net.createServer(function(socket) {
     
     // We have a connection - a socket object is assigned to the connection automatically
-    console.log('CONNECTED: ' + '\t\t' + socket.remoteAddresss);
+
     // Create a connection object to keep track of connections
     var connection = {
         ip: socket.remoteAddress,
@@ -21,13 +21,15 @@ net.createServer(function(socket) {
     
     // Add a 'data' event handler to this instance of socket
     socket.on('data', function(data) {
+
+        //console.log(socket)
         
         console.log("Recieved communication from " + socket.remoteAddress + "--" + data) ;
         // Find the socket which just sent the message
-        socketIndex = returnConnectionIndexFromIP(socket.remoteAddress) ;
+        socketIndex = returnConnectionSocket(socket) ;
         if(socketIndex == -1)
         {
-            console.log("This connection IP address is not known") ;
+            console.log("This connection is not known") ;
         }
         else
         {
@@ -40,7 +42,7 @@ net.createServer(function(socket) {
             // It already has
             else
             {
-                IncomingData(data.toString()) ;
+                IncomingData(socketIndex,data.toString()) ;
             }
         }
     });
@@ -50,7 +52,7 @@ net.createServer(function(socket) {
 
         console.log("Attempting to close the the socket")
 
-        socketIndex = returnConnectionIndexFromIP(socket.remoteAddress) ;
+        socketIndex = returnConnectionSocket(socket) ;
         
         if(socketIndex == -1)
         {
@@ -85,11 +87,12 @@ net.createServer(function(socket) {
 
 console.log('Server listening on port: ' + PORT);
 
-function returnConnectionIndexFromIP(theIPAddress) 
+function returnConnectionSocket(theSocket) 
 {
     for (var i = 0; i < openConnections.length; i++) 
     {
-        if(theIPAddress == openConnections[i].ip)
+        console.log("here")
+        if(theSocket == openConnections[i].com)
         {
             return i;
         }
@@ -139,9 +142,9 @@ function AssignRole(in_data)
     }
 }
 
-function IncomingData(in_data) 
+function IncomingData(theSocketIndex, in_data) 
 {
-    switch (in_data) {
+    switch (openConnections[theSocketIndex].role) {
         case 'controller':
                 console.log("Controller spoke to me") ;
             break;
