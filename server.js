@@ -161,7 +161,16 @@ function IncomingData(theSocketIndex, in_data)
                 }
             break;
         case 'vr':
-                console.log("VR spoke to me") ;
+                var controllerIndex = returnConnectionIndexFromRole("controller") ;
+                if(controllerIndex == -1)
+                {
+                    console.log("Error could not find controller") ;
+                }
+                else
+                {
+                    console.log("Replying");
+                    openConnections[controllerIndex].com.write(in_data) ;
+                }
             break;
         default:
             console.log('Not a known request');
