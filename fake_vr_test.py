@@ -1,4 +1,5 @@
 import socket
+import time
 
 ipAddress = '160.119.248.176'
 
@@ -30,8 +31,16 @@ else:
 
 
 print("Sending two messages to the server")
-sock.send("First Message")
-sock.send("Seccond Message")
+sock.send("First Message from VR")
+sock.send("Seccond Message from VR")
+
+time.sleep(3)
+
+sock.send("Third Message from VR")
+
+while(1):
+    time.sleep(3)
+    sock.send("Loop Message from VR")
 
 print("Closing connection")
 sock.close()

@@ -1,6 +1,7 @@
 var net = require('net');
 var PORT = 4242;
 var openConnections = [];
+var vrConnected = false;
 
 // Create a server instance, and chain the listen function to it
 // The function passed to net.createServer() becomes the event handler for the 'connection' event
@@ -8,7 +9,6 @@ var openConnections = [];
 net.createServer(function(socket) {
     
     // We have a connection - a socket object is assigned to the connection automatically
-
     // Create a connection object to keep track of connections
     var connection = {
         ip: socket.remoteAddress,
@@ -60,11 +60,14 @@ net.createServer(function(socket) {
         }
         else
         {
+            if(openConnections[socketIndex].role == "vr")
+            {
+                vrConnected = false;
+            }
             // At position SocketIndex remove 1 item.
             openConnections.splice(socketIndex,1);
             console.log('CLOSED: ' + '\t\t' + socket.remoteAddress);
         }
-        
     });
 
     // If there is an error event
@@ -79,10 +82,6 @@ net.createServer(function(socket) {
     });
     
 }).listen(PORT)
-
-
-
-
 
 
 console.log('Server listening on port: ' + PORT);
@@ -135,6 +134,7 @@ function AssignRole(in_data)
             console.log('vr accepted');
             openConnections[socketIndex].role = "vr";  
             openConnections[socketIndex].com.write('ack'); 
+            vrConnected = true;
             break;
         default:
             console.log('Not a known request');
@@ -149,15 +149,22 @@ function IncomingData(theSocketIndex, in_data)
                 console.log("Controller spoke to me") ;
             break;
         case 'web':
-                var controllerIndex = returnConnectionIndexFromRole("controller") ;
-                if(controllerIndex == -1)
+                if(vrConnected == true)
                 {
-                    console.log("Error could not find controller") ;
+                    console.log("There is a vr machine connected, cant forward web message")
                 }
                 else
                 {
-                    console.log("Replying");
-                    openConnections[controllerIndex].com.write(in_data) ;
+                    var controllerIndex = returnConnectionIndexFromRole("controller") ;
+                    if(controllerIndex == -1)
+                    {
+                        console.log("Error could not find controller") ;
+                    }
+                    else
+                    {
+                        console.log("Replying");
+                        openConnections[controllerIndex].com.write(in_data) ;
+                    }
                 }
             break;
         case 'vr':
