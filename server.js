@@ -113,6 +113,7 @@ function returnConnectionIndexFromRole(theRole)
 
 function AssignRole(in_data) 
 {
+    console.log("Printing here! - " + in_data)
     switch (in_data) {
         case 'controller':
             console.log('The device is requesting to be a controller');
