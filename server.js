@@ -113,16 +113,15 @@ function returnConnectionIndexFromRole(theRole)
 
 function AssignRole(in_data) 
 {
-    console.log("Printing here! - " + in_data)
-    switch (in_data) {
-        case 'controller':
+    switch (String(in_data).substring(0, 2)) {
+        case 'co':
             console.log('The device is requesting to be a controller');
             //TODO check if there are any other controllers
             console.log('controller accepted');
             openConnections[socketIndex].role = "controller";   
             openConnections[socketIndex].com.write('ack');
             break;
-        case 'web':
+        case 'we':
             console.log('The device is requesting to be a website');
             //TODO check if there are any other controllers
             console.log('web accepted');
