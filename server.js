@@ -175,7 +175,7 @@ function IncomingData(theSocketIndex, in_data)
                 }
                 else
                 {
-                    console.log("Replying");
+                    console.log("Forwarding message to controller");
                     openConnections[controllerIndex].com.write(in_data) ;
                 }
             break;
