@@ -3,6 +3,8 @@ var PORT = 4242;
 var openConnections = [];
 var vrConnected = false;
 
+var TotalMessages = 0;
+
 // Create a server instance, and chain the listen function to it
 // The function passed to net.createServer() becomes the event handler for the 'connection' event
 // The sock object the callback function receives UNIQUE for each connection
@@ -21,10 +23,13 @@ net.createServer(function(socket) {
     
     // Add a 'data' event handler to this instance of socket
     socket.on('data', function(data) {
-
-        //console.log(socket)
         
         console.log("Recieved communication from " + socket.remoteAddress + "--" + data) ;
+        
+        // Keep track of total messages
+        TotalMessages = TotalMessages + 1;
+        console.log("Message number: " + TotalMessages);
+
         // Find the socket which just sent the message
         socketIndex = returnConnectionSocket(socket) ;
         if(socketIndex == -1)
@@ -39,7 +44,7 @@ net.createServer(function(socket) {
                 console.log('This is a new device');
                 AssignRole(data.toString()) ;
             }
-            // It already has an assigned role
+            // It already has
             else
             {
                 IncomingData(socketIndex,data.toString()) ;
@@ -66,7 +71,7 @@ net.createServer(function(socket) {
             }
             // At position SocketIndex remove 1 item.
             openConnections.splice(socketIndex,1);
-            console.log('CLOSED: ' + '\t\t' + socket.remoteAddress);
+            console.log('Connection closed: ' + socket.remoteAddress);
         }
     });
 
@@ -90,7 +95,6 @@ function returnConnectionSocket(theSocket)
 {
     for (var i = 0; i < openConnections.length; i++) 
     {
-        console.log("here")
         if(theSocket == openConnections[i].com)
         {
             return i;
@@ -118,14 +122,14 @@ function AssignRole(in_data)
             console.log('The device is requesting to be a controller');
             //TODO check if there are any other controllers
             console.log('controller accepted');
-            openConnections[socketIndex].role = "co";   
+            openConnections[socketIndex].role = "controller";   
             openConnections[socketIndex].com.write('ack');
             break;
         case 'we':
             console.log('The device is requesting to be a website');
             //TODO check if there are any other controllers
             console.log('web accepted');
-            openConnections[socketIndex].role = "we";   
+            openConnections[socketIndex].role = "web";   
             openConnections[socketIndex].com.write('ack');
             break;
         case 'vr':
@@ -146,7 +150,7 @@ function IncomingData(theSocketIndex, in_data)
 {
     switch (openConnections[theSocketIndex].role) {
         case 'controller':
-                console.log("Controller spoke to me") ;
+                console.log("Controller sent a message") ;
             break;
         case 'web':
                 if(vrConnected == true)
@@ -155,20 +159,22 @@ function IncomingData(theSocketIndex, in_data)
                 }
                 else
                 {
-                    var controllerIndex = returnConnectionIndexFromRole("co") ;
+                    console.log("Data received from the website");
+                    var controllerIndex = returnConnectionIndexFromRole("controller") ;
                     if(controllerIndex == -1)
                     {
                         console.log("Error could not find controller") ;
                     }
                     else
                     {
-                        console.log("Forwarding message to controller");
+                        console.log("Forwarding packet to controller");
                         openConnections[controllerIndex].com.write(in_data) ;
                     }
                 }
             break;
         case 'vr':
-                var controllerIndex = returnConnectionIndexFromRole("co") ;
+                console.log("Data received from the vr system");
+                var controllerIndex = returnConnectionIndexFromRole("controller") ;
                 if(controllerIndex == -1)
                 {
                     console.log("Error could not find controller") ;
