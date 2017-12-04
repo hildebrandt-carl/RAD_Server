@@ -39,7 +39,7 @@ net.createServer(function(socket) {
                 console.log('This is a new device');
                 AssignRole(data.toString()) ;
             }
-            // It already has
+            // It already has an assigned role
             else
             {
                 IncomingData(socketIndex,data.toString()) ;
@@ -118,14 +118,14 @@ function AssignRole(in_data)
             console.log('The device is requesting to be a controller');
             //TODO check if there are any other controllers
             console.log('controller accepted');
-            openConnections[socketIndex].role = "controller";   
+            openConnections[socketIndex].role = "co";   
             openConnections[socketIndex].com.write('ack');
             break;
         case 'we':
             console.log('The device is requesting to be a website');
             //TODO check if there are any other controllers
             console.log('web accepted');
-            openConnections[socketIndex].role = "web";   
+            openConnections[socketIndex].role = "we";   
             openConnections[socketIndex].com.write('ack');
             break;
         case 'vr':
@@ -155,20 +155,20 @@ function IncomingData(theSocketIndex, in_data)
                 }
                 else
                 {
-                    var controllerIndex = returnConnectionIndexFromRole("controller") ;
+                    var controllerIndex = returnConnectionIndexFromRole("co") ;
                     if(controllerIndex == -1)
                     {
                         console.log("Error could not find controller") ;
                     }
                     else
                     {
-                        console.log("Replying");
+                        console.log("Forwarding message to controller");
                         openConnections[controllerIndex].com.write(in_data) ;
                     }
                 }
             break;
         case 'vr':
-                var controllerIndex = returnConnectionIndexFromRole("controller") ;
+                var controllerIndex = returnConnectionIndexFromRole("co") ;
                 if(controllerIndex == -1)
                 {
                     console.log("Error could not find controller") ;
