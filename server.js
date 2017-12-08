@@ -171,7 +171,7 @@ function IncomingData(theSocketIndex, in_data)
                         openConnections[controllerIndex].com.write(in_data) ;
                     }
                     console.log("Returning how many messages have been sent") ;
-                    openConnections[theSocketIndex].com.write(TotalMessages) ;
+                    openConnections[theSocketIndex].com.write(TotalMessages.toString()) ;
                 }
             break;
         case 'vr':
