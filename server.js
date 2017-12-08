@@ -170,6 +170,8 @@ function IncomingData(theSocketIndex, in_data)
                         console.log("Forwarding packet to controller");
                         openConnections[controllerIndex].com.write(in_data) ;
                     }
+                    console.log("Returning how many messages have been sent") ;
+                    openConnections[theSocketIndex].com.write(TotalMessages) ;
                 }
             break;
         case 'vr':
