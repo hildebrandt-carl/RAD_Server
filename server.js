@@ -21,29 +21,7 @@ net.createServer(function(socket) {
 
     // Add the connection to a queue of connections
     openConnections.push(connection);
-    // Loop through the openConnections and send how many people are currently connected to the webserver
-    webIndex = returnConnectionIndexFromRole("web") ;
-    if(webIndex != -1)
-    {
-        console.log("Sending the connection status's to the website");
-        openConnections[webIndex].com.write("web1") ;
-        if(returnConnectionIndexFromRole("vr") != 1)
-        {
-            openConnections[webIndex].com.write("vrb1") ;
-        }
-        else
-        {
-            openConnections[webIndex].com.write("vrb0") ;
-        }
-        if(returnConnectionIndexFromRole("controller") != 1)
-        {
-            openConnections[webIndex].com.write("con1") ;
-        }
-        else
-        {
-            openConnections[webIndex].com.write("con0") ;
-        }
-    }
+
     
     // Add a 'data' event handler to this instance of socket
     socket.on('data', function(data) {
@@ -67,6 +45,30 @@ net.createServer(function(socket) {
             {
                 console.log('This is a new device');
                 AssignRole(data.toString()) ;
+
+                // Loop through the openConnections and send how many people are currently connected to the webserver
+                webIndex = returnConnectionIndexFromRole("web") ;
+                if(webIndex != -1)
+                {
+                    console.log("Sending the connection status's to the website");
+                    openConnections[webIndex].com.write("web1") ;
+                    if(returnConnectionIndexFromRole("vr") != 1)
+                    {
+                        openConnections[webIndex].com.write("vrb1") ;
+                    }
+                    else
+                    {
+                        openConnections[webIndex].com.write("vrb0") ;
+                    }
+                    if(returnConnectionIndexFromRole("controller") != 1)
+                    {
+                        openConnections[webIndex].com.write("con1") ;
+                    }
+                    else
+                    {
+                        openConnections[webIndex].com.write("con0") ;
+                    }
+                }
             }
             // It already has
             else
