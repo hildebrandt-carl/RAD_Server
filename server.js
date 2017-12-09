@@ -200,7 +200,7 @@ function IncomingData(theSocketIndex, in_data)
                     openConnections[theSocketIndex].com.write(TotalMessages.toString()) ;
                     currentTime = new Date();
                     currentTime = currentTime - startupTime ;
-                    console.log("Current Up Time:" + currentTime.getHours.toString() + currentTime.getMinutes.toString() + currentTime.getSeconds.toString() )
+                    console.log("Current Up Time:" + currentTime.toString() )
                     openConnections[theSocketIndex].com.write()
                 }
             break;
