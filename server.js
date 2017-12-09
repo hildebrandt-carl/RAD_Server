@@ -4,6 +4,7 @@ var openConnections = [];
 var vrConnected = false;
 
 var TotalMessages = 0;
+var startupTime = new Date();
 
 // Create a server instance, and chain the listen function to it
 // The function passed to net.createServer() becomes the event handler for the 'connection' event
@@ -20,6 +21,29 @@ net.createServer(function(socket) {
 
     // Add the connection to a queue of connections
     openConnections.push(connection);
+    // Loop through the openConnections and send how many people are currently connected to the webserver
+    webIndex = returnConnectionIndexFromRole("web") ;
+    if(webIndex != -1)
+    {
+        console.log("Sending the connection status's to the website");
+        openConnections[webIndex].com.write("web1") ;
+        if(returnConnectionIndexFromRole("vr") != 1)
+        {
+            openConnections[webIndex].com.write("vrb1") ;
+        }
+        else
+        {
+            openConnections[webIndex].com.write("vrb0") ;
+        }
+        if(returnConnectionIndexFromRole("controller") != 1)
+        {
+            openConnections[webIndex].com.write("con1") ;
+        }
+        else
+        {
+            openConnections[webIndex].com.write("con0") ;
+        }
+    }
     
     // Add a 'data' event handler to this instance of socket
     socket.on('data', function(data) {
@@ -172,6 +196,10 @@ function IncomingData(theSocketIndex, in_data)
                     }
                     console.log("Returning how many messages have been sent") ;
                     openConnections[theSocketIndex].com.write(TotalMessages.toString()) ;
+                    currentTime = new Date();
+                    currentTime = currentTime - startupTime ;
+                    console.log("Current Up Time:" + currentTime.getHours.toString() + currentTime.getMinutes.toString() + currentTime.getSeconds.toString() )
+                    openConnections[theSocketIndex].com.write()
                 }
             break;
         case 'vr':
