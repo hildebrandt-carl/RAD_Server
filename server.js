@@ -52,7 +52,7 @@ net.createServer(function(socket) {
                 {
                     console.log("Sending the connection status's to the website");
                     openConnections[webIndex].com.write("web1") ;
-                    if(returnConnectionIndexFromRole("vr") == -1)
+                    if(returnConnectionIndexFromRole("vr") <= -1)
                     {
                         openConnections[webIndex].com.write("vrb0") ;
                     }
@@ -60,7 +60,7 @@ net.createServer(function(socket) {
                     {
                         openConnections[webIndex].com.write("vrb1") ;
                     }
-                    if(returnConnectionIndexFromRole("controller") == -11)
+                    if(returnConnectionIndexFromRole("controller") <= -1)
                     {
                         openConnections[webIndex].com.write("con0") ;
                     }
