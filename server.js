@@ -47,6 +47,7 @@ net.createServer(function(socket) {
                 AssignRole(data.toString()) ;
 
                 // Loop through the openConnections and send how many people are currently connected to the webserver
+                //TURN THIS TO A SINGLE STRING
                 webIndex = returnConnectionIndexFromRole("web") ;
                 if(webIndex != -1)
                 {
@@ -196,12 +197,12 @@ function IncomingData(theSocketIndex, in_data)
                         console.log("Forwarding packet to controller");
                         openConnections[controllerIndex].com.write(in_data) ;
                     }
-                    console.log("Returning how many messages have been sent") ;
-                    openConnections[theSocketIndex].com.write(TotalMessages.toString()) ;
+                    //console.log("Returning how many messages have been sent") ;
+                    //openConnections[theSocketIndex].com.write(TotalMessages.toString()) ;
                     //currentTime = new Date();
                     //currentTime = currentTime - startupTime ;
                     //console.log("Current Up Time:" + currentTime.toString() )
-                    openConnections[theSocketIndex].com.write()
+                    //openConnections[theSocketIndex].com.write(TotalMessages.toString()) ;
                 }
             break;
         case 'vr':
