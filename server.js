@@ -52,21 +52,21 @@ net.createServer(function(socket) {
                 {
                     console.log("Sending the connection status's to the website");
                     openConnections[webIndex].com.write("web1") ;
-                    if(returnConnectionIndexFromRole("vr") != 1)
-                    {
-                        openConnections[webIndex].com.write("vrb1") ;
-                    }
-                    else
+                    if(returnConnectionIndexFromRole("vr") == -1)
                     {
                         openConnections[webIndex].com.write("vrb0") ;
                     }
-                    if(returnConnectionIndexFromRole("controller") != 1)
+                    else
                     {
-                        openConnections[webIndex].com.write("con1") ;
+                        openConnections[webIndex].com.write("vrb1") ;
+                    }
+                    if(returnConnectionIndexFromRole("controller") == -11)
+                    {
+                        openConnections[webIndex].com.write("con0") ;
                     }
                     else
                     {
-                        openConnections[webIndex].com.write("con0") ;
+                        openConnections[webIndex].com.write("con1") ;
                     }
                 }
             }
@@ -198,9 +198,9 @@ function IncomingData(theSocketIndex, in_data)
                     }
                     console.log("Returning how many messages have been sent") ;
                     openConnections[theSocketIndex].com.write(TotalMessages.toString()) ;
-                    currentTime = new Date();
-                    currentTime = currentTime - startupTime ;
-                    console.log("Current Up Time:" + currentTime.toString() )
+                    //currentTime = new Date();
+                    //currentTime = currentTime - startupTime ;
+                    //console.log("Current Up Time:" + currentTime.toString() )
                     openConnections[theSocketIndex].com.write()
                 }
             break;
