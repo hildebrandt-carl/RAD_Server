@@ -226,6 +226,8 @@ function IncomingData(theSocketIndex, in_data)
                 {
                     console.log("Forwarding message to controller");
                     openConnections[controllerIndex].com.write(in_data) ;
+                    console.log("Acknowledging message") ;
+                    openConnections[theSocketIndex].com.write("ack");
                 }
             break;
         default:
