@@ -197,12 +197,22 @@ function IncomingData(theSocketIndex, in_data)
                         console.log("Forwarding packet to controller");
                         openConnections[controllerIndex].com.write(in_data) ;
                     }
-                    //console.log("Returning how many messages have been sent") ;
-                    //openConnections[theSocketIndex].com.write(TotalMessages.toString()) ;
-                    //currentTime = new Date();
-                    //currentTime = currentTime - startupTime ;
-                    //console.log("Current Up Time:" + currentTime.toString() )
-                    //openConnections[theSocketIndex].com.write(TotalMessages.toString()) ;
+                    console.log("Returning how many messages have been sent") ;
+                    openConnections[theSocketIndex].com.write('meg' + TotalMessages.toString()) ;
+                    // Calculating the current up time
+                    currentTime = new Date();
+                    currentTime = currentTime - startupTime ;
+                    currentTime = Math.floor(currentTime / 1000) ;
+                    // Get the number of hours
+                    var hours = Math.floor(currentTime / 3600);
+                    currentTime = currentTime - hours * 3600;
+                    // Get the number of minutes
+                    var minutes = Math.floor(currentTime / 60);
+                    // Get the number of seconds
+                    var seconds = currentTime - minutes * 60;
+                    // Returning the current up time
+                    console.log("Current Up Time - " + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString()) ;
+                    openConnections[theSocketIndex].com.write("tim" + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString()) ;
                 }
             break;
         case 'vr':
