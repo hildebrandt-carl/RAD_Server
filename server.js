@@ -169,7 +169,7 @@ function AssignRole(in_data)
             break;
         default:
             console.log('Not a known request');
-            openConnections[socketIndex].com.write('rej');
+            openConnections[socketIndex].com.write('rej\n');
     }
 }
 
@@ -227,11 +227,11 @@ function IncomingData(theSocketIndex, in_data)
                     console.log("Forwarding message to controller");
                     openConnections[controllerIndex].com.write(in_data) ;
                     console.log("Acknowledging message") ;
-                    openConnections[theSocketIndex].com.write("ack");
+                    openConnections[theSocketIndex].com.write("ack\n");
                 }
             break;
         default:
             console.log('Not a known request');
-            openConnections[socketIndex].com.write('rej');
+            openConnections[socketIndex].com.write('rej\n');
     }
 }
