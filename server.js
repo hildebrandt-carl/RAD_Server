@@ -164,12 +164,12 @@ function AssignRole(in_data)
             //TODO check if there are any other controllers
             console.log('vr accepted');
             openConnections[socketIndex].role = "vr";  
-            openConnections[socketIndex].com.write('ack'); 
+            //openConnections[socketIndex].com.write('ack'); 
             vrConnected = true;
             break;
         default:
             console.log('Not a known request');
-            openConnections[socketIndex].com.write('rej');
+            //openConnections[socketIndex].com.write('rej');
     }
 }
 
