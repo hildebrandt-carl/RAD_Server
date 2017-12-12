@@ -4,6 +4,6 @@ clear
 echo "Starting HTTP Server"
 
 cd ~/RAD_Webserver
-nodejs httpServer.js
+nodejs httpserver.js
 
 $SHELL
