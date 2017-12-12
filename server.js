@@ -157,7 +157,7 @@ function AssignRole(in_data)
             //TODO check if there are any other controllers
             console.log('web accepted');
             openConnections[socketIndex].role = "web";   
-            openConnections[socketIndex].com.write('ack');
+            openConnections[socketIndex].com.write('ack#');
             break;
         case 'vr':
             console.log('The device is requesting to be virtual reality');
