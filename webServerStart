@@ -1,0 +1,9 @@
+#!/bin/bash
+
+clear
+echo "Starting Web Server"
+
+cd RAD_Webserver/
+node server.js
+
+$SHELL

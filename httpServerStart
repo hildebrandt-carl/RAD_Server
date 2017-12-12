@@ -1,0 +1,9 @@
+#!/bin/bash
+
+clear
+echo "Starting HTTP Server"
+
+cd RAD_Website/
+nodejs httpServer.js
+
+$SHELL

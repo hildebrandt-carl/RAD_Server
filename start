@@ -1,0 +1,17 @@
+#!/bin/bash
+clear
+
+#Allows the server time to allow other applications enough time to open
+sleep 5
+
+#Running a script called nodeStart
+screen -dmS webServer ./webServerStart
+
+screen -dmS httpServer ./httpServerStart
+
+#Running a new screen called command line
+screen -mS commandLine
+
+echo "RAD_Team Server"
+
+$SHELL

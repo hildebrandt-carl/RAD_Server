@@ -169,7 +169,7 @@ function AssignRole(in_data)
             break;
         default:
             console.log('Not a known request');
-            openConnections[socketIndex].com.write('rej\n');
+            openConnections[socketIndex].com.write('rej');
     }
 }
 
