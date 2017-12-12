@@ -2,11 +2,17 @@
 clear
 
 #Allows the server time to allow other applications enough time to open
-sleep 5
+sleep 2
 
-#Running a script called nodeStart
+#Running the webserver start script
+cd ~/Rad_Server
 screen -dmS webServer ./webServerStart
 
+#Allow the webserver to start so that the http sever can connect
+sleep 2
+
+#Running the http start script
+cd ~/Rad_Server
 screen -dmS httpServer ./httpServerStart
 
 #Running a new screen called command line

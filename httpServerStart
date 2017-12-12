@@ -3,7 +3,7 @@
 clear
 echo "Starting HTTP Server"
 
-cd RAD_Website/
+cd ~/RAD_Webserver
 nodejs httpServer.js
 
 $SHELL
