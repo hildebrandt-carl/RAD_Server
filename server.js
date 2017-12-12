@@ -52,22 +52,22 @@ net.createServer(function(socket) {
                 if(webIndex != -1)
                 {
                     console.log("Sending the connection status's to the website");
-                    openConnections[webIndex].com.write("web1") ;
+                    openConnections[webIndex].com.write("web1#") ;
                     if(returnConnectionIndexFromRole("vr") <= -1)
                     {
-                        openConnections[webIndex].com.write("vrb0") ;
+                        openConnections[webIndex].com.write("vrb0#") ;
                     }
                     else
                     {
-                        openConnections[webIndex].com.write("vrb1") ;
+                        openConnections[webIndex].com.write("vrb1#") ;
                     }
                     if(returnConnectionIndexFromRole("controller") <= -1)
                     {
-                        openConnections[webIndex].com.write("con0") ;
+                        openConnections[webIndex].com.write("con0#") ;
                     }
                     else
                     {
-                        openConnections[webIndex].com.write("con1") ;
+                        openConnections[webIndex].com.write("con1#") ;
                     }
                 }
             }
@@ -198,7 +198,7 @@ function IncomingData(theSocketIndex, in_data)
                         openConnections[controllerIndex].com.write(in_data) ;
                     }
                     console.log("Returning how many messages have been sent") ;
-                    openConnections[theSocketIndex].com.write('meg' + TotalMessages.toString()) ;
+                    openConnections[theSocketIndex].com.write('meg' + TotalMessages.toString() + "#") ;
                     // Calculating the current up time
                     currentTime = new Date();
                     currentTime = currentTime - startupTime ;
@@ -212,7 +212,7 @@ function IncomingData(theSocketIndex, in_data)
                     var seconds = currentTime - minutes * 60;
                     // Returning the current up time
                     console.log("Current Up Time - " + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString()) ;
-                    openConnections[theSocketIndex].com.write("tim" + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString()) ;
+                    openConnections[theSocketIndex].com.write("tim" + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString() + "#") ;
                 }
             break;
         case 'vr':
