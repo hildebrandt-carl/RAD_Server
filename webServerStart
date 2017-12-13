@@ -1,9 +1,6 @@
 #!/bin/bash
 
-clear
 echo "Starting Web Server"
-
-cd ~/RAD_Webserver
 nodejs server.js
 
 $SHELL
